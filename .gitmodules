@@ -1,0 +1,24 @@
+[submodule "mbed-os"]
+	path = mbed-os
+	url = https://github.com/ARMmbed/mbed-os.git
+[submodule "drivers/BSP/B-L475E-IOT01"]
+	path = drivers/BSP/B-L475E-IOT01
+	url = https://github.com/STMicroelectronics/b-l475e-iot01a-bsp
+[submodule "drivers/BSP/Components/Common"]
+	path = drivers/BSP/Components/Common
+	url = https://github.com/STMicroelectronics/stm32-bsp-common
+[submodule "drivers/BSP/Components/hts221"]
+	path = drivers/BSP/Components/hts221
+	url = https://github.com/STMicroelectronics/stm32-hts221
+[submodule "drivers/BSP/Components/lis3mdl"]
+	path = drivers/BSP/Components/lis3mdl
+	url = https://github.com/STMicroelectronics/stm32-lis3mdl
+[submodule "drivers/BSP/Components/lps22hb"]
+	path = drivers/BSP/Components/lps22hb
+	url = https://github.com/STMicroelectronics/stm32-lps22hb
+[submodule "drivers/BSP/Components/lsm6dsl"]
+	path = drivers/BSP/Components/lsm6dsl
+	url = https://github.com/STMicroelectronics/stm32-lsm6dsl
+[submodule "drivers/BSP/Components/mx25r6435f"]
+	path = drivers/BSP/Components/mx25r6435f
+	url = https://github.com/STMicroelectronics/stm32-mx25r6435f
