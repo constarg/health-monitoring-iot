@@ -7,6 +7,12 @@ set(MBED_PATH ${CMAKE_CURRENT_SOURCE_DIR}/mbed-os CACHE INTERNAL "")
 set(MBED_CONFIG_PATH ${CMAKE_CURRENT_BINARY_DIR} CACHE INTERNAL "")
 set(APP_TARGET health-monitor-iot)
 
+set(INCLUDE_DIRS 
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/"
+)
+
+include_directories(${INCLUDE_DIRS})
+
 include(${MBED_PATH}/tools/cmake/app.cmake)
 
 project(${APP_TARGET})
@@ -16,7 +22,14 @@ add_subdirectory(${MBED_PATH})
 add_subdirectory(./drivers/)
 
 add_executable(${APP_TARGET}
-    ./src/main.cpp
+    ./src/main.cc
+    ./src/health_monitor.cc
+    ./src/movement_detection/falling.cc
+    ./src/movement_detection/hiking.cc
+    ./src/movement_detection/jumping.cc
+    ./src/movement_detection/running.cc
+    ./src/movement_detection/stretching.cc
+    ./src/movement_detection/walking.cc
 )
 
 target_link_libraries(${APP_TARGET} mbed-os bsp_drivers)
