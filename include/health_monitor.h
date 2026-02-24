@@ -6,7 +6,7 @@
 
 namespace iot_health_mon {
 
-#define ACCELEROMETER_DEPTH (10)
+#define ACCELEROMETER_DEPTH (3)
 #define PRESUREMETER_DEPTH  (10)
 #define GYROSCOPE_DEPTH     (3)
 
@@ -37,12 +37,14 @@ class health_monitor {
     void falling_alert(void) const;
 
     bool is_staying(void) const;
-    bool is_walking(void) const;
+    bool is_walking(void);
     bool is_running(void) const;
     bool is_jumping(void) const;
     bool is_stretching(void) const;
     bool is_hiking(void) const;
     bool is_falling(void) const;
+
+    bool being_hunt_by_a_cat(void) const;
 };
 
 }  // namespace iot_health_mon
