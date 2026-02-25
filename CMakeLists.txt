@@ -30,6 +30,8 @@ add_executable(${APP_TARGET}
     ./src/movement_detection/running.cc
     ./src/movement_detection/stretching.cc
     ./src/movement_detection/walking.cc
+    ./src/movement_detection/stationary.cc
+    ./src/movement_detection/moving_common.cc
 )
 
 target_link_libraries(${APP_TARGET} mbed-os bsp_drivers)
