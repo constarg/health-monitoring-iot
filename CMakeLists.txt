@@ -26,9 +26,7 @@ add_executable(${APP_TARGET}
     ./src/health_monitor.cc
     ./src/movement_detection/falling.cc
     ./src/movement_detection/hiking.cc
-    ./src/movement_detection/jumping.cc
     ./src/movement_detection/running.cc
-    ./src/movement_detection/stretching.cc
     ./src/movement_detection/walking.cc
     ./src/movement_detection/stationary.cc
     ./src/movement_detection/moving_common.cc

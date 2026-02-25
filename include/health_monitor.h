@@ -8,7 +8,7 @@
 
 namespace iot_health_mon {
 
-#define SENSORS_RECORD_DEPTH (5)
+#define SENSORS_RECORD_DEPTH (4)
 
 #define HOSPITAL_BAUD_RATE (9600)
 #define HOSPITAL_BAUD_BITS (8)
@@ -26,6 +26,7 @@ class health_monitor {
 
     static bool probably_running(const struct movement_snapshot *movement);
     static bool probably_walking(const struct movement_snapshot *movement);
+    static bool probably_falling(const struct movement_snapshot *movement);
 
     static bool probably_stationary(const struct movement_snapshot *movement);
 
@@ -43,13 +44,10 @@ class health_monitor {
     void send_to_hospital(void) const;
     void falling_alert(void) const;
 
-    bool is_staying(void) const;
     bool is_walking(void);
     bool is_running(void);
-    bool is_jumping(void) const;
-    bool is_stretching(void) const;
     bool is_hiking(void) const;
-    bool is_falling(void) const;
+    bool is_falling(void);
     bool is_stationary(void);
 
     bool being_hunt_by_a_cat(void) const;

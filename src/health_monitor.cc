@@ -53,9 +53,9 @@ health_monitor::read_sensors(void)
 
     /* Calculate the index in which the next sample should be stored.
        The index should not exceed the number of available spots. */
-    g_next_accel_index   = (g_next_accel_index + 1) % ACCELEROMETER_DEPTH;
-    g_next_gyro_index    = (g_next_gyro_index + 1) % GYROSCOPE_DEPTH;
-    g_next_presure_index = (g_next_presure_index + 1) % PRESUREMETER_DEPTH;
+    g_next_accel_index   = (g_next_accel_index + 1) % SENSORS_RECORD_DEPTH;
+    g_next_gyro_index    = (g_next_gyro_index + 1) % SENSORS_RECORD_DEPTH;
+    g_next_presure_index = (g_next_presure_index + 1) % SENSORS_RECORD_DEPTH;
 
     /* Get a sample from each sensor. */
     BSP_ACCELERO_AccGetXYZ(accelerometer_sample);

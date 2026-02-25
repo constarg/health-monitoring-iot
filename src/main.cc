@@ -15,12 +15,12 @@ main()
 
     while (1) {
         test.read_sensors();
+
         if (test.is_walking()) { printf("WALKING\n"); }
+        if (test.is_falling()) { printf("Falling!\n"); }
 
-        if (test.is_running()) { printf("RUNNING\n"); }
+        // if (test.is_running()) { printf("RUNNING\n"); }
         if (test.is_stationary()) { printf("Stationary\n"); }
-
-        thread_sleep_for(500);
     }
 
     return 0;
