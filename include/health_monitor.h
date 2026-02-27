@@ -30,9 +30,8 @@ class health_monitor {
     static bool
     detected_walking_continued_sig(const struct movement_snapshot *movement);
 
-    // static bool
-    // detected_running_continued_sig(const struct movement_snapshot
-    // *movement);
+    static bool
+    detected_running_continued_sig(const struct movement_snapshot *movement);
 
     static bool
     detected_freefall_started_sig(const struct movement_snapshot *movement);
@@ -42,8 +41,6 @@ class health_monitor {
 
     static bool
     detected_falling_continued_sig(const struct movement_snapshot *movement);
-
-    static bool probably_stationary(const struct movement_snapshot *movement);
 
     enum moving_state movement_detection(void);
 

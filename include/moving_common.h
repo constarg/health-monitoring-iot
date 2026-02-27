@@ -14,10 +14,30 @@
    on whether the user has started moving in previous record. */
 #define WALKING_CONT_SIG_THRESHOLD (5)
 
+/* RUNNING_CONT_SIG_THRESHOLD Defines the threshold from which
+   we can safely assume that the user started running, depending
+   on whether the user has started moving in previous record. */
+#define RUNNING_CONT_SIG_THRESHOLD (50)
+
+/* RUNNING_GYRO_SIG_THRESHOLD Defines the threshold of the
+   gyroscope from which we can safely assume that the user is
+   running. */
+#define RUNNING_GYRO_SIG_THRESHOLD (10000)
+
 /* JUMPING_CONT_SIG_THRESHOLD Defines the threshold from which
    we can safely assume that the user started jumping, depending
    on whether the user was in free fall state in previous record. */
 #define JUMPING_CONT_SIG_THRESHOLD (30)
+
+/* FALLING_CONT_SIG_THRESHOLD Defines the threshold from which
+   we can safely assume that the user is falling, depending on
+   whether the user as in free fall state in previous record. */
+#define FALLING_CONT_SIG_THRESHOLD (30)
+
+/* FALLING_GYRO_SIG_THRESHOLD Defines the gyroscope threshold
+   from which we can safely assume that the user is falling. This
+   is shown as a very quick acceleration towards one of the axis. */
+#define FALLING_GYRO_SIG_THRESHOLD (15000)
 
 /* GRAVETETIONAL_PULL Defines the always present pulling from the
    earth against the accelerator. */

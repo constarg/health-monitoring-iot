@@ -7,8 +7,12 @@ bool
 health_monitor::detected_jumping_continued_sig(const struct movement_snapshot
                                                    *movement)
 {
-    return (std::abs(movement->m_vsum_accel - GRAVITETIONAL_PULL)
-            > JUMPING_CONT_SIG_THRESHOLD)
+    int32_t diff; /* Holds the difference of the current value of the
+                 accelerometer and the gravetational pull of the earth. */
+
+    diff = std::abs(movement->m_vsum_accel - GRAVITETIONAL_PULL);
+
+    return (diff > JUMPING_CONT_SIG_THRESHOLD)
            && (movement->m_vsum_accel > GRAVITETIONAL_PULL);
 }
 

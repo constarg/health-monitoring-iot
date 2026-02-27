@@ -9,7 +9,14 @@ bool
 health_monitor::detected_falling_continued_sig(const struct movement_snapshot
                                                    *movement)
 {
-    return false;
+    int32_t diff; /* Holds the difference of the current value of the
+                     accelerometer and the gravetational pull of the earth. */
+
+    diff = std::abs(movement->m_vsum_accel - GRAVITETIONAL_PULL);
+
+    return (diff > FALLING_CONT_SIG_THRESHOLD)
+           && (movement->m_vsum_accel > GRAVITETIONAL_PULL)
+           && movement->m_vsum_gyro > FALLING_GYRO_SIG_THRESHOLD;
 }
 
 bool
