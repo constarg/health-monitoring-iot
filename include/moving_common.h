@@ -61,15 +61,16 @@
 
 namespace iot_health_mon {
 
+/* moving_state holds the known moves. */
 enum moving_state
 {
-    STATIONARY,
-    RUNNING,
-    WALKING,
-    JUMPING,
-    HIKING,
-    FALLING,
-    UNKNOWN
+    STATIONARY = 0b000,
+    RUNNING    = 0b001,
+    WALKING    = 0b010,
+    JUMPING    = 0b011,
+    HIKING     = 0b100,
+    FALLING    = 0b101,
+    UNKNOWN    = 0b111
 };
 
 /**

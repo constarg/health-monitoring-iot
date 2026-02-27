@@ -21,11 +21,11 @@ health_monitor::health_monitor(void) : hospital_direct_line_(USBTX, USBRX)
                                            HOSPITAL_STOP_BIT);
 
     /* Initialize all the required sensors. */
-    BSP_TSENSOR_Init();
-    BSP_PSENSOR_Init();
-    BSP_HSENSOR_Init();
-    BSP_ACCELERO_Init();
-    BSP_GYRO_Init();
+    BSP_TSENSOR_Init();  /* Thermal sensor. */
+    BSP_PSENSOR_Init();  /* Presure sensor. */
+    BSP_HSENSOR_Init();  /* Humidity sensor. */
+    BSP_ACCELERO_Init(); /* Accelerometer sensor. */
+    BSP_GYRO_Init();     /* Gyroscope sensor. */
 }
 
 health_monitor::~health_monitor()
@@ -63,28 +63,16 @@ health_monitor::read_sensors(void)
 uint8_t
 health_monitor::get_sampling_rate(void) const
 {
-    return this->sampling_rate_sec_;
+    return this->sampling_rate_ms_;
 }
 
 void
 health_monitor::set_sampling_rate(uint8_t rate)
 {
-    this->sampling_rate_sec_ = rate;
+    this->sampling_rate_ms_ = rate;
 }
 
 void
 health_monitor::send_to_hospital(void) const
 {
-    // TODO: This function should send all the sensor data algong with
-    // some flags to the hospital.
-    //
-    // TODO: It should convert any floating measurement into uint8, and
-    // after that to write the array of data into the UART.
-}
-
-void
-health_monitor::falling_alert(void) const
-{
-    // TODO: This function should call the send_to_hospital method,
-    // with an extra flag that incicates that it was falling.
 }

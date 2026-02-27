@@ -71,10 +71,13 @@ health_monitor::movement_detection(void)
     struct movement_snapshot movement; /* Holds the currently examined
                                           movement. */
 
+    /* Declare the following variables to check the initite of an action. */
     bool is_moving_started_sig; /* Indicates whether the user is moving. */
     bool is_freefall_sig;       /* Indicates whether the user is at free fall
                                    state. */
 
+    /* Declare the following variables to check of the existance of a specific
+       move signature. */
     bool is_walking_continued_sig; /* Indicates whether the user is walking. */
     bool is_jumping_continued_sig; /* Indicates whether the user is jumping. */
     bool is_falling_continued_sig; /* Indicates whether the user is falling. */
