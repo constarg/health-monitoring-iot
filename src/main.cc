@@ -13,7 +13,7 @@
    iterations in which the last detected move will
    be kept, unless an other move, except the STATIONARY
    appeared. */
-#define MAX_ACTIVE_MOVE_ITERATIONS (10)
+#define MAX_ACTIVE_MOVE_TTL (10)
 
 int
 main()
@@ -24,14 +24,14 @@ main()
                                                     move. */
     enum iot_health_mon::moving_state curr_move; /* The currently detected
                                                     move. */
-    int move_iterations; /* The number of iteration the current move is
-                            active. */
+    int move_time_to_live; /* The number of iteration the current move is
+                              active. */
 
     bool change_move; /* Indicates whether the monitor system should
                                 change the currently active move. */
 
-    monitor         = new iot_health_mon::health_monitor();
-    move_iterations = 0;
+    monitor           = new iot_health_mon::health_monitor();
+    move_time_to_live = 0;
 
     change_move = false;
     prev_move   = iot_health_mon::STATIONARY;
@@ -68,7 +68,7 @@ main()
         /* The currently active move should change ONLY if the current
            active move reached the maximum alive iterations, or if there
            is another move that is NOT the stationary move. */
-        change_move = MAX_ACTIVE_MOVE_ITERATIONS == move_iterations
+        change_move = MAX_ACTIVE_MOVE_TTL == move_time_to_live
                       || (prev_move != curr_move
                           && curr_move != iot_health_mon::STATIONARY);
 
@@ -79,19 +79,20 @@ main()
 
         /* Reset the alive time of the move, if the same
            move was detected. */
-        if (curr_move == prev_move) { move_iterations = 0; }
+        if (curr_move == prev_move) { move_time_to_live = 0; }
 
-        move_iterations++;
+        move_time_to_live++;
 
         /* Change the previous value, ONLY if the previous
            value is expired OR is another move that is NOT
            the stationary. */
         prev_move = (curr_move == iot_health_mon::STATIONARY
-                     && move_iterations != MAX_ACTIVE_MOVE_ITERATIONS)
+                     && move_time_to_live != MAX_ACTIVE_MOVE_TTL)
                         ? prev_move
                         : curr_move;
 
-        // thread_sleep_for(monitor->get_sampling_rate());
+        monitor->send_to_hospital();
+        thread_sleep_for(monitor->get_sampling_rate());
 
         switch (prev_move) {
             case iot_health_mon::STATIONARY:

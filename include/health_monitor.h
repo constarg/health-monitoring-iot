@@ -45,6 +45,10 @@ class health_monitor {
     /* active_move_ Holds the currently active move of the user. */
     enum moving_state active_move_;
 
+    /* power_saving_is_active_ Indicates whether the power saving
+       feature is active or not. */
+    bool power_saving_is_active_;
+
     /* hospital_direct_line_ Represents a logical line to the hospital,
        Matlab in out scenario. Data will be sent to this line, through
        UART. */
@@ -174,6 +178,27 @@ class health_monitor {
      * @param move The newly configured move.
      */
     void set_active_move(enum moving_state move);
+
+    /**
+     * enable_power_saving Enables the power saving
+     * feature.
+     */
+    void enable_power_saving(void);
+
+    /**
+     * disable_power_saving Disables the power saving
+     * feature.
+     */
+    void disable_power_saving(void);
+
+    /**
+     * is_power_saving_on Checks whether the power saving
+     * feature is enabled.
+     *
+     * @return True if the power saving feature is enabled,
+     * otherwise false.
+     */
+    bool is_power_saving_on(void) const;
 
     /**
      * send_to_hospital Sends the petients sensor data
