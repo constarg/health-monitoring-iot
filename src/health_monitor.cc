@@ -12,6 +12,14 @@
 
 using namespace iot_health_mon;
 
+#define HOSPITAL_MESSAGE_BYTES (5)
+
+namespace {
+
+uint8_t hospital_buff[HOSPITAL_MESSAGE_BYTES];
+
+}
+
 health_monitor::health_monitor(void) : hospital_direct_line_(USBTX, USBRX)
 {
     /* Configure the UART communication channel. */
@@ -58,6 +66,10 @@ health_monitor::read_sensors(void)
 
         this->presuremeter_records_[sample] = presuremeter_sample;
     }
+
+    /* Read Temperature and Humidity values, to calculate the comfort level. */
+    this->last_temp_     = BSP_TSENSOR_ReadTemp();
+    this->last_humidity_ = BSP_HSENSOR_ReadHumidity();
 }
 
 uint8_t
@@ -70,6 +82,18 @@ void
 health_monitor::set_sampling_rate(uint8_t rate)
 {
     this->sampling_rate_ms_ = rate;
+}
+
+enum moving_state
+health_monitor::get_active_move(void) const
+{
+    return this->active_move_;
+}
+
+void
+health_monitor::set_active_move(enum moving_state move)
+{
+    this->active_move_ = move;
 }
 
 void

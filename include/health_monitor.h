@@ -33,9 +33,17 @@ class health_monitor {
        samples of the gyroscope sensor.*/
     float   gyroscope_records_[SENSORS_RECORD_DEPTH][3];
 
+    /* last_temp_ Holds the last temperature sample. */
+    float last_temp_;
+    /* last_humidity_ Holds the last humidity sample. */
+    float last_humidity_;
+
     /* sampling_rate_ms_ Holds the sampling rate of the board. It
        can be reduced for power saving purposes. */
     uint8_t sampling_rate_ms_;
+
+    /* active_move_ Holds the currently active move of the user. */
+    enum moving_state active_move_;
 
     /* hospital_direct_line_ Represents a logical line to the hospital,
        Matlab in out scenario. Data will be sent to this line, through
@@ -154,6 +162,20 @@ class health_monitor {
     void set_sampling_rate(uint8_t rate);
 
     /**
+     * get_active_move Get's the currently active
+     * move of the user.
+     */
+    enum moving_state get_active_move(void) const;
+
+    /**
+     * set_active_move Configures the currently active
+     * move of the user.
+     *
+     * @param move The newly configured move.
+     */
+    void set_active_move(enum moving_state move);
+
+    /**
      * send_to_hospital Sends the petients sensor data
      * to the hospital for further process and monitoring.
      * This is done using the direct line to the hospital.
@@ -194,14 +216,6 @@ class health_monitor {
      * is falling.
      */
     bool is_stationary(void);
-
-    /**
-     * being_hunt_by_a_cat Is used to send an emergency
-     * message to any hospital to help the user avoid
-     * the cat which actively (and angrily) follow him
-     * to attack him with its claws and teeths.
-     */
-    bool being_hunt_by_a_cat(void) const;
 };
 
 }  // namespace iot_health_mon
