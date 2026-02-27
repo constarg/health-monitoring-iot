@@ -3,27 +3,34 @@
 
 #include <stdint.h>
 
-/* WALKING_LOW_THRESHOLD Defines a threshold from which we can
-   safely assume the user walks. */
-#define WALKING_LOW_THRESHOLD  (15)  // 15 mg/(s^2)
-/* WALKING_HIGH_THRESHOLD Defines a threshold after which
-   we can safely assume that the user no longer walks (maybe run). */
-#define WALKING_HIGH_THRESHOLD (35)  // 35 mg/(s^2)
-/* RUNNING_LOW_THRESHOLD Defines a threshold after which we can
-   safely assume that the user is running. */
-#define RUNNING_LOW_THRESHOLD  (35)
-/* RUNNING_HIGH_THRESHOLD Define a threshold after which we can
-   safely assume that the user is no longer running
-   (maybe moving using a bike or a car). */
-#define RUNNING_HIGH_THRESHOLD (120)
+/* MOVING_STARTED_SIG_THRESHOLD Defines the threshold (in mg),
+   from which we can safely assume that the user started moving.
+   The "moving" can be anything, not walking, just moving. The
+   clasification as walking or running is another signature. */
+#define MOVING_STARTED_SIG_THRESHOLD (5)
 
-/* MOVING_GYRO_THRESHOLD Defines a threshold from which we can
-   safely assume the user is moving. */
-#define MOVING_GYRO_THRESHOLD (5000)  // 2000 DPS.
+/* WALKING_CONT_SIG_THRESHOLD Defines the threshold from which
+   we can safely assume that the user started walking, depending
+   on whether the user has started moving in previous record. */
+#define WALKING_CONT_SIG_THRESHOLD (5)
 
-/* FALLING_GYRO_THRESHOLD Defines a threshold from which we can
-   safely assume that the user is falling down. */
-#define FALLING_GYRO_THRESHOLD (50000)
+/* JUMPING_CONT_SIG_THRESHOLD Defines the threshold from which
+   we can safely assume that the user started jumping, depending
+   on whether the user was in free fall state in previous record. */
+#define JUMPING_CONT_SIG_THRESHOLD (30)
+
+/* GRAVETETIONAL_PULL Defines the always present pulling from the
+   earth against the accelerator. */
+#define GRAVITETIONAL_PULL (60)
+
+/* FREE_FALL_STARTED_SIG_THRESHOLD Defines the threshold from which
+   we can safely assume that the user is entered a Free Fall state.
+   This state is present during both FALLING and JUMPING. The
+   characteristic is that the acceleration to the earth temporarly
+   is reaching near zero gravetetional pull. I assume that, if the
+   user reached less than FREE_ALL_STARTED_SIG_THRESHOLD MG/s^2,
+   then is probably in free fall state. */
+#define FREE_FALL_STARTED_SIG_THRESHOLD (30)
 
 /* ACCEL_RAW_TO_MG Converts the RAW value retrieved
    from the accelerometer sensor into Mili G Unit. */
@@ -39,6 +46,7 @@ enum moving_state
     STATIONARY,
     RUNNING,
     WALKING,
+    JUMPING,
     HIKING,
     FALLING,
     UNKNOWN
@@ -52,31 +60,13 @@ enum moving_state
  */
 struct movement_snapshot
 {
-    int32_t m_vsum_accel_before; /* Rerpesents the vector sum of
-                                    the accelerators previous sample
-                                    value. */
-    int32_t m_vsum_accel_after;  /* Represents the vector sum of
-                                    the accelerators sample
-                                    value, recorded after the previous. */
-    int     m_vsum_gyro;         /* Represents the vector sum of
-                                    the gyroscope, for the matching sample
-                                    as the accelerometers. */
+    int32_t m_vsum_accel; /* Represents the vector sum of
+                             the accelerators sample
+                             value, recorded after the previous. */
+    int     m_vsum_gyro;  /* Represents the vector sum of
+                             the gyroscope, for the matching sample
+                             as the accelerometers. */
 };
-
-/**
- * walking_running_common Is used to detect both the walking activity and
- * the running activity. The differenciation between walking and running
- * is determined by the threshold passed on this routine (namely low_threshold
- * and high_threshold).
- *
- * @param movement A pointer to the currently examined movement.
- * @param low_threshold An integer representing a lower bound.
- * @param high_threshold An integer representing a high bound.
- * @return True if movement were between the lower & higher bound, False,
- * otherwise.
- */
-extern bool walking_running_common(const struct movement_snapshot *movement,
-                                   int low_threshold, int high_threshold);
 
 }  // namespace iot_health_mon
 

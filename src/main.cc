@@ -11,17 +11,21 @@
 int
 main()
 {
-    iot_health_mon::health_monitor test;
+    iot_health_mon::health_monitor *test;
+
+    test = new iot_health_mon::health_monitor();
 
     while (1) {
-        test.read_sensors();
+        test->read_sensors();
 
-        if (test.is_walking()) { printf("WALKING\n"); }
-        if (test.is_falling()) { printf("Falling!\n"); }
+        if (test->is_walking()) { printf("WALKING\n"); }
+        if (test->is_jumping()) { printf("JUMPING\n"); }
+        // if (test.is_falling()) { printf("Falling!\n"); }
 
         // if (test.is_running()) { printf("RUNNING\n"); }
-        if (test.is_stationary()) { printf("Stationary\n"); }
+        // if (test.is_stationary()) { printf("Stationary\n"); }
     }
 
+    delete test;
     return 0;
 }

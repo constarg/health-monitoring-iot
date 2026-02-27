@@ -1,5 +1,6 @@
 #include "health_monitor.h"
 
+#include <cstdio>
 #include <cstring>
 
 #include "PinNameAliases.h"
@@ -10,14 +11,6 @@
 #include "stm32l475e_iot01_tsensor.h"
 
 using namespace iot_health_mon;
-
-namespace {
-
-uint8_t g_next_accel_index;
-uint8_t g_next_gyro_index;
-uint8_t g_next_presure_index;
-
-}  // namespace
 
 health_monitor::health_monitor(void) : hospital_direct_line_(USBTX, USBRX)
 {
@@ -51,24 +44,20 @@ health_monitor::read_sensors(void)
     float   presuremeter_sample;     /* Holds the currently READ sample from
                                         the presuremeter. */
 
-    /* Calculate the index in which the next sample should be stored.
-       The index should not exceed the number of available spots. */
-    g_next_accel_index   = (g_next_accel_index + 1) % SENSORS_RECORD_DEPTH;
-    g_next_gyro_index    = (g_next_gyro_index + 1) % SENSORS_RECORD_DEPTH;
-    g_next_presure_index = (g_next_presure_index + 1) % SENSORS_RECORD_DEPTH;
+    for (int sample = 0; sample < SENSORS_RECORD_DEPTH; sample++) {
+        /* Get a sample from each sensor. */
+        BSP_ACCELERO_AccGetXYZ(accelerometer_sample);
+        BSP_GYRO_GetXYZ(gyroscope_sample);
+        presuremeter_sample = BSP_PSENSOR_ReadPressure();
 
-    /* Get a sample from each sensor. */
-    BSP_ACCELERO_AccGetXYZ(accelerometer_sample);
-    BSP_GYRO_GetXYZ(gyroscope_sample);
-    presuremeter_sample = BSP_PSENSOR_ReadPressure();
+        /* Store the newly read samples in the respective indexes. */
+        (void)memcpy(this->accelerometer_records_[sample],
+                     accelerometer_sample, sizeof(accelerometer_sample));
+        (void)memcpy(this->gyroscope_records_[sample], gyroscope_sample,
+                     sizeof(gyroscope_sample));
 
-    /* Store the newly read samples in the respective indexes. */
-    (void)memcpy(this->accelerometer_records_[g_next_accel_index],
-                 accelerometer_sample, sizeof(accelerometer_sample));
-    (void)memcpy(this->gyroscope_records_[g_next_gyro_index], gyroscope_sample,
-                 sizeof(gyroscope_sample));
-
-    this->presuremeter_records_[g_next_presure_index] = presuremeter_sample;
+        this->presuremeter_records_[sample] = presuremeter_sample;
+    }
 }
 
 uint8_t
