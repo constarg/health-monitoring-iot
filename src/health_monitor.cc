@@ -42,6 +42,12 @@ uint8_t g_hospital_buff[HOSPITAL_MESSAGE_BYTES]   = {0};
 /* g_hospital_cipher Contains the encrypted version of g_hospital_buff. */
 uint8_t g_hospital_cipher[HOSPITAL_MESSAGE_BYTES] = {0};
 
+// NOLINTBEGIN(readability-magic-numbers)
+uint8_t g_hospital_aes_key[AES_KEY_LENGTH] = {
+    0x5c, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6,
+    0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c};
+// NOLINTEND(readability-magic-numbers)
+
 }  // namespace
 
 health_monitor::health_monitor(void) : hospital_direct_line_(USBTX, USBRX)
@@ -56,12 +62,7 @@ health_monitor::health_monitor(void) : hospital_direct_line_(USBTX, USBRX)
     this->power_saving_is_active_ = false;
 
     /* Define the cryptographic key used. */
-    // NOLINTBEGIN(readability-magic-numbers)
-    this->crypto_key_[0] = 0x5c;
-    this->crypto_key_[1] = 0x7e;
-    this->crypto_key_[2] = 0x15;
-    this->crypto_key_[3] = 0x16;
-    // NOLINTEND(readability-magic-numbers)
+    (void)memcpy(this->crypto_key_, g_hospital_aes_key, AES_KEY_LENGTH);
 
     /* Initialize all the required sensors. */
     BSP_TSENSOR_Init();  /* Thermal sensor. */

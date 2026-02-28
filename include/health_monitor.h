@@ -21,7 +21,8 @@ namespace iot_health_mon {
 
 #define HOSPITAL_STOP_BIT (1)
 
-#define AES_KEY_LENGTH (4)
+/* Define the number of bytes used for the AES key (which is 128-bit). */
+#define AES_KEY_LENGTH (16)
 
 class health_monitor {
    private:
