@@ -5,6 +5,7 @@
 #include <cstring>
 
 #include "PinNameAliases.h"
+#include "crypto/aes.h"
 #include "stm32l475e_iot01_accelero.h"
 #include "stm32l475e_iot01_gyro.h"
 #include "stm32l475e_iot01_hsensor.h"
@@ -36,7 +37,10 @@ using namespace iot_health_mon;
 
 namespace {
 
-uint8_t g_hospital_buff[HOSPITAL_MESSAGE_BYTES] = {0};
+/* g_hospital_buff Contains the data to be sent on hospital. */
+uint8_t g_hospital_buff[HOSPITAL_MESSAGE_BYTES]   = {0};
+/* g_hospital_cipher Contains the encrypted version of g_hospital_buff. */
+uint8_t g_hospital_cipher[HOSPITAL_MESSAGE_BYTES] = {0};
 
 }  // namespace
 
@@ -50,6 +54,14 @@ health_monitor::health_monitor(void) : hospital_direct_line_(USBTX, USBRX)
 
     this->sampling_rate_ms_       = 0;
     this->power_saving_is_active_ = false;
+
+    /* Define the cryptographic key used. */
+    // NOLINTBEGIN(readability-magic-numbers)
+    this->crypto_key_[0] = 0x5c;
+    this->crypto_key_[1] = 0x7e;
+    this->crypto_key_[2] = 0x15;
+    this->crypto_key_[3] = 0x16;
+    // NOLINTEND(readability-magic-numbers)
 
     /* Initialize all the required sensors. */
     BSP_TSENSOR_Init();  /* Thermal sensor. */
@@ -144,7 +156,7 @@ health_monitor::is_power_saving_on(void) const
 }
 
 void
-health_monitor::send_to_hospital(void) const
+health_monitor::send_to_hospital(void)
 {
     uint8_t int_temp;  /* Holds the integer part of temperature. */
     uint8_t int_humid; /* Holds the integer part of Humidity. */
@@ -196,8 +208,11 @@ health_monitor::send_to_hospital(void) const
     g_hospital_buff[4] |= this->active_move_;
     g_hospital_buff[4] |= (3 << (uint8_t)power_saving_is_active_);
 
-    // TODO: Encrypt the data before sending it to the hospital.
+    /* Encrypt the data to be sent to the hospital. */
+    AES_ECB_encrypt(g_hospital_buff, this->crypto_key_, g_hospital_cipher,
+                    HOSPITAL_MESSAGE_BYTES);
 
     /* Send the data into the UART channel. */
-    this->hospital_direct_line_.write(g_hospital_buff, HOSPITAL_MESSAGE_BYTES);
+    this->hospital_direct_line_.write(g_hospital_cipher,
+                                      HOSPITAL_MESSAGE_BYTES);
 }

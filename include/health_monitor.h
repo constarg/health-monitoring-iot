@@ -21,6 +21,8 @@ namespace iot_health_mon {
 
 #define HOSPITAL_STOP_BIT (1)
 
+#define AES_KEY_LENGTH (4)
+
 class health_monitor {
    private:
     /* accelerometer_records_ Holds the next SENSOR_RECORD_DEPTH
@@ -48,6 +50,10 @@ class health_monitor {
     /* power_saving_is_active_ Indicates whether the power saving
        feature is active or not. */
     bool power_saving_is_active_;
+
+    /* crypto_key Holds the cryptographic key used to encrypt the
+       traffict between the hospital and the end-user. */
+    uint8_t crypto_key_[AES_KEY_LENGTH];
 
     /* hospital_direct_line_ Represents a logical line to the hospital,
        Matlab in out scenario. Data will be sent to this line, through
@@ -205,7 +211,7 @@ class health_monitor {
      * to the hospital for further process and monitoring.
      * This is done using the direct line to the hospital.
      */
-    void send_to_hospital(void) const;
+    void send_to_hospital(void);
 
     /**
      * is_walking Determines whether the user walks.
