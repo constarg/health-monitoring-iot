@@ -166,7 +166,6 @@ health_monitor::movement_detection(void)
             } else if (detected_jumping_continued_sig(&movement)) {
                 is_jumping_continued_sig = true;
             }
-
         } else if (is_moving_started_sig) {
             if (detected_running_continued_sig(&movement)) {
                 is_running_continued_sig = true;

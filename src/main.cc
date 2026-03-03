@@ -9,7 +9,7 @@
 #include "mbed_thread.h"
 #include "moving_common.h"
 
-/* ACTIVE_MOVE_ITERATIONS specifies the number of
+/* ACTIVE_MOVE_ITERATIONS Specifies the number of
    iterations in which the last detected move will
    be kept, unless an other move, except the STATIONARY
    appeared. */
@@ -24,14 +24,17 @@ main()
                                                     move. */
     enum iot_health_mon::moving_state curr_move; /* The currently detected
                                                     move. */
-    int move_time_to_live; /* The number of iteration the current move is
-                              active. */
+    int move_time_to_live;       /* The number of iteration the current move is
+                                    active. */
+    int stationary_time_to_live; /* The number of iteration that the monitor
+                                    remians stationary. */
 
     bool change_move; /* Indicates whether the monitor system should
                                 change the currently active move. */
 
-    monitor           = new iot_health_mon::health_monitor();
-    move_time_to_live = 0;
+    monitor                 = new iot_health_mon::health_monitor();
+    move_time_to_live       = 0;
+    stationary_time_to_live = 0;
 
     change_move = false;
     prev_move   = iot_health_mon::STATIONARY;
@@ -77,6 +80,10 @@ main()
         if (change_move) {
             monitor->set_active_move(curr_move);
             prev_move = curr_move;
+
+            if (monitor->is_power_saving_on()) {
+                monitor->disable_power_saving();
+            }
         }
 
         /* Reset the alive time of the move, if the same
@@ -96,25 +103,16 @@ main()
         monitor->send_to_hospital();
         thread_sleep_for(monitor->get_sampling_rate());
 
-        // switch (prev_move) {
-        //     case iot_health_mon::STATIONARY:
-        //         printf("STATIONARY\n");
-        //         break;
-        //     case iot_health_mon::WALKING:
-        //         printf("WALKING\n");
-        //         break;
-        //     case iot_health_mon::RUNNING:
-        //         printf("RUNNING\n");
-        //         break;
-        //     case iot_health_mon::JUMPING:
-        //         printf("JUMPING\n");
-        //         break;
-        //     case iot_health_mon::FALLING:
-        //         printf("FALLING\n");
-        //         break;
-        //     default:
-        //         break;
-        // }
+        if (monitor->is_stationary()) {
+            stationary_time_to_live++;
+        } else {
+            stationary_time_to_live = 0;
+        }
+
+        if (monitor->is_stationary()
+            && MAX_ACTIVE_MOVE_TTL == stationary_time_to_live) {
+            monitor->enable_power_saving();
+        }
     }
 
     delete monitor;

@@ -142,7 +142,8 @@ health_monitor::enable_power_saving(void)
     BSP_ACCELERO_LowPower(ENABLE_LOW_POWER);
     BSP_GYRO_LowPower(ENABLE_LOW_POWER);
 
-    this->sampling_rate_ms_ = POWER_SAVING_SAMPLING_RATE;
+    this->sampling_rate_ms_       = POWER_SAVING_SAMPLING_RATE;
+    this->power_saving_is_active_ = true;
 }
 
 void
@@ -151,7 +152,8 @@ health_monitor::disable_power_saving(void)
     BSP_ACCELERO_LowPower(DISABLE_LOW_POWER);
     BSP_GYRO_LowPower(DISABLE_LOW_POWER);
 
-    this->sampling_rate_ms_ = 0;
+    this->sampling_rate_ms_       = 0;
+    this->power_saving_is_active_ = false;
 }
 
 bool
