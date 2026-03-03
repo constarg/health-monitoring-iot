@@ -37,6 +37,8 @@ main()
     prev_move   = iot_health_mon::STATIONARY;
     curr_move   = iot_health_mon::STATIONARY;
 
+    monitor->set_active_move(iot_health_mon::STATIONARY);
+
     while (true) {
         monitor->read_sensors();
 
@@ -94,25 +96,25 @@ main()
         monitor->send_to_hospital();
         thread_sleep_for(monitor->get_sampling_rate());
 
-        switch (prev_move) {
-            case iot_health_mon::STATIONARY:
-                printf("STATIONARY\n");
-                break;
-            case iot_health_mon::WALKING:
-                printf("WALKING\n");
-                break;
-            case iot_health_mon::RUNNING:
-                printf("RUNNING\n");
-                break;
-            case iot_health_mon::JUMPING:
-                printf("JUMPING\n");
-                break;
-            case iot_health_mon::FALLING:
-                printf("FALLING\n");
-                break;
-            default:
-                break;
-        }
+        // switch (prev_move) {
+        //     case iot_health_mon::STATIONARY:
+        //         printf("STATIONARY\n");
+        //         break;
+        //     case iot_health_mon::WALKING:
+        //         printf("WALKING\n");
+        //         break;
+        //     case iot_health_mon::RUNNING:
+        //         printf("RUNNING\n");
+        //         break;
+        //     case iot_health_mon::JUMPING:
+        //         printf("JUMPING\n");
+        //         break;
+        //     case iot_health_mon::FALLING:
+        //         printf("FALLING\n");
+        //         break;
+        //     default:
+        //         break;
+        // }
     }
 
     delete monitor;

@@ -35,12 +35,16 @@ using namespace iot_health_mon;
    power saving feature is enabled. */
 #define POWER_SAVING_SAMPLING_RATE (200)
 
+/* STATUS_BIT Indicates the bit where the status bit
+   is placed. */
+#define STATUS_BIT (0x3)
+
 namespace {
 
 /* g_hospital_buff Contains the data to be sent on hospital. */
-uint8_t g_hospital_buff[HOSPITAL_MESSAGE_BYTES]   = {0};
+uint8_t g_hospital_buff[HOSPITAL_MESSAGE_BYTES] = {0};
 /* g_hospital_cipher Contains the encrypted version of g_hospital_buff. */
-uint8_t g_hospital_cipher[HOSPITAL_MESSAGE_BYTES] = {0};
+uint8_t g_hospital_cipher[AES_KEY_LENGTH]       = {0};
 
 // NOLINTBEGIN(readability-magic-numbers)
 uint8_t g_hospital_aes_key[AES_KEY_LENGTH] = {
@@ -207,13 +211,15 @@ health_monitor::send_to_hospital(void)
         the encoded values of each move.
     */
     g_hospital_buff[4] |= this->active_move_;
-    g_hospital_buff[4] |= (3 << (uint8_t)power_saving_is_active_);
+    g_hospital_buff[4] |= ((uint8_t)this->power_saving_is_active_)
+                          << STATUS_BIT;
+
+    // printf("%d\n", g_hospital_buff[4]);
 
     /* Encrypt the data to be sent to the hospital. */
     AES_ECB_encrypt(g_hospital_buff, this->crypto_key_, g_hospital_cipher,
                     HOSPITAL_MESSAGE_BYTES);
 
     /* Send the data into the UART channel. */
-    this->hospital_direct_line_.write(g_hospital_cipher,
-                                      HOSPITAL_MESSAGE_BYTES);
+    this->hospital_direct_line_.write(g_hospital_cipher, AES_KEY_LENGTH);
 }
