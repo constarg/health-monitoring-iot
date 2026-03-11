@@ -17,8 +17,8 @@ using namespace iot_health_mon;
 #define VECTOR_SUM(X, Y, Z) sqrt(pow((X), 2) + pow((Y), 2) + pow((Z), 2))
 
 bool
-health_monitor::detected_moving_started_sig(const struct movement_snapshot
-                                                *movement)
+health_monitor::detected_moving_started_sig_(const struct movement_snapshot
+                                                 *movement)
 {
     return (std::abs(movement->m_vsum_accel - GRAVITETIONAL_PULL)
             > MOVING_STARTED_SIG_THRESHOLD)
@@ -26,8 +26,8 @@ health_monitor::detected_moving_started_sig(const struct movement_snapshot
 }
 
 bool
-health_monitor::detected_freefall_started_sig(const struct movement_snapshot
-                                                  *movement)
+health_monitor::detected_freefall_started_sig_(const struct movement_snapshot
+                                                   *movement)
 {
     return movement->m_vsum_accel < FREE_FALL_STARTED_SIG_THRESHOLD;
 }
@@ -127,12 +127,12 @@ health_monitor::movement_detection(void)
            state. Using the moving stage we can determine whether the user
            is walking, running, hiking and using the free fall state we can
            determine whether the use is falling of jumping. */
-        if (health_monitor::detected_freefall_started_sig(&movement)) {
+        if (health_monitor::detected_freefall_started_sig_(&movement)) {
             is_freefall_sig          = true;
             is_moving_started_sig    = false;
             is_walking_continued_sig = false;
             is_running_continued_sig = false;
-        } else if (health_monitor::detected_moving_started_sig(&movement)) {
+        } else if (health_monitor::detected_moving_started_sig_(&movement)) {
             is_moving_started_sig = true;
         }
 
@@ -161,15 +161,15 @@ health_monitor::movement_detection(void)
         }
 
         if (is_freefall_sig) {
-            if (detected_falling_continued_sig(&movement)) {
+            if (detected_falling_continued_sig_(&movement)) {
                 is_falling_continued_sig = true;
-            } else if (detected_jumping_continued_sig(&movement)) {
+            } else if (detected_jumping_continued_sig_(&movement)) {
                 is_jumping_continued_sig = true;
             }
         } else if (is_moving_started_sig) {
-            if (detected_running_continued_sig(&movement)) {
+            if (detected_running_continued_sig_(&movement)) {
                 is_running_continued_sig = true;
-            } else if (detected_walking_continued_sig(&movement)) {
+            } else if (detected_walking_continued_sig_(&movement)) {
                 is_walking_continued_sig = true;
                 is_moving_started_sig    = false;
             }

@@ -6,8 +6,8 @@
 using namespace iot_health_mon;
 
 bool
-health_monitor::detected_falling_continued_sig(const struct movement_snapshot
-                                                   *movement)
+health_monitor::detected_falling_continued_sig_(const struct movement_snapshot
+                                                    *movement)
 {
     int32_t diff; /* Holds the difference of the current value of the
                      accelerometer and the gravetational pull of the earth. */

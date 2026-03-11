@@ -62,7 +62,7 @@ class health_monitor {
     mbed::BufferedSerial hospital_direct_line_;
 
     /**
-     * detect_moving_started_sig Detects the signature of a movement that
+     * detect_moving_started_sig_ Detects the signature of a movement that
      * is staring to be visible, .e.g. when the user starts walking there
      * is small spike which goes against gravity.
      *
@@ -71,10 +71,10 @@ class health_monitor {
      * false.
      */
     static bool
-    detected_moving_started_sig(const struct movement_snapshot *movement);
+    detected_moving_started_sig_(const struct movement_snapshot *movement);
 
     /**
-     * detect_walking_continued_sig Detects the signature of 'walking' action.
+     * detect_walking_continued_sig_ Detects the signature of 'walking' action.
      * The monitoring system will search for this signature only after a
      * moving signature is detected in previous records, detected by
      * detect_moving_started_sig.
@@ -84,10 +84,10 @@ class health_monitor {
      * walks, otherwise false.
      */
     static bool
-    detected_walking_continued_sig(const struct movement_snapshot *movement);
+    detected_walking_continued_sig_(const struct movement_snapshot *movement);
 
     /**
-     * detected_running_continued_sig Detects the signature of 'running'
+     * detected_running_continued_sig_ Detects the signature of 'running'
      * action. The monitoring system will search for this signature only after
      * a moving signature is detected in previous records, detected by
      * detect_moving_started_sig.
@@ -97,10 +97,10 @@ class health_monitor {
      * is running, otherwise false.
      */
     static bool
-    detected_running_continued_sig(const struct movement_snapshot *movement);
+    detected_running_continued_sig_(const struct movement_snapshot *movement);
 
     /**
-     * detected_freefall_started_sig Detects the signature of a free fall.
+     * detected_freefall_started_sig_ Detects the signature of a free fall.
      * This signature is quite useful to detect a falling scenario and a
      * jumping exercise scenario. It essentially detects whether an object
      * reaches near 0g situations, which implies that the object is in free
@@ -112,10 +112,10 @@ class health_monitor {
      * is currently in free fall state.
      */
     static bool
-    detected_freefall_started_sig(const struct movement_snapshot *movement);
+    detected_freefall_started_sig_(const struct movement_snapshot *movement);
 
     /**
-     * detected_jumping_continued_sig Detects the signature of a 'jump'.
+     * detected_jumping_continued_sig_ Detects the signature of a 'jump'.
      * The monitoring system will search for this signature only after
      * the user enters a free fall state.
      *
@@ -124,10 +124,10 @@ class health_monitor {
      * is currently jumping, otherwise false.
      */
     static bool
-    detected_jumping_continued_sig(const struct movement_snapshot *movement);
+    detected_jumping_continued_sig_(const struct movement_snapshot *movement);
 
     /**
-     * detected_falling_continued_sig Detects the signature of a 'fall'.
+     * detected_falling_continued_sig_ Detects the signature of a 'fall'.
      * The monitoring system will search for this signature only after
      * the user enters a free fall state. This action takes priority over
      * all of the avaiable movements.
@@ -137,7 +137,7 @@ class health_monitor {
      * experience a fall, otherwise false.
      */
     static bool
-    detected_falling_continued_sig(const struct movement_snapshot *movement);
+    detected_falling_continued_sig_(const struct movement_snapshot *movement);
 
     /**
      * movement_detection Detects the currently active move.
