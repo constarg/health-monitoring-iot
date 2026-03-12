@@ -72,3 +72,18 @@ cd build/
 cmake ../
 make
 ```
+
+## Flash and test
+To flash the internal memory of the STM device execute the following command, under the build folder.
+```bash
+make flash 
+```
+
+For functional verification of the software, please navigate to the releases and download the Matlab app, which used as a demo for 
+the software. The screenshot below depics the software functionality while running. 
+
+<img width="765" height="451" alt="image" src="https://github.com/user-attachments/assets/07a54155-2d54-486c-9210-d2b7149dc352" />
+
+
+
+
