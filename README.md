@@ -74,7 +74,7 @@ make
 ```
 
 ## Flash and test
-To flash the internal memory of the STM device execute the following command, under the build folder.
+To flash the software binary version into the internal memory of the STM device execute the following command, under the build folder.
 ```bash
 make flash 
 ```
