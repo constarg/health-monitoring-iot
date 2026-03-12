@@ -35,7 +35,11 @@ To download the ARM tool chain i was using for the purpose of this project, plea
 
 ```bash
 wget https://developer.arm.com/-/media/files/downloads/gnu/11.2-2022.02/binrel/gcc-arm-11.2-2022.02-aarch64-arm-none-eabi.tar.xz?rev=3789ce184378489e9704981b07530206&revision=3789ce18-4378-489e-9704-981b07530206&hash=098A6C1606DEFEC8430936F382FB453E -o gcc-arm-11.2-2022.02-aarch64-arm-none-eabi.tar.xz
+```
+```bash
 tar -xf gcc-arm-none-eabi-12.3.rel1-x86_64-arm-none-eabi.tar.xz
+```
+```bash
 export PATH="PATH_TO_DOWNLOAD_FOLDER/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin:PATH"
 ```
 
