@@ -1,7 +1,7 @@
 # Introduction
-This repository conists of source code made as an exercise in the MSc. It was made to monitor elder people's activities for basic movements and report any dangerous recorded activity, like falling. It as made on an STM IoT node, DISCO_L475VG_IOT01A, levereging the MBED-OS platform.<br><br>
+This repository consists of source code made as an exercise during my MSc. It was made to monitor elderly people's activities for basic movements and report any dangerous recorded activity, like falling. It was made on an STM IoT node, DISCO_L475VG_IOT01A, leveraging the MBED-OS platform.
 
-Although the project wes created for the MSc, i think the instructions below would be a nice guide for setting up the embed development environment locally, without depending on the ARM provided solutions, like KAIL. If you would like to setup the embed environment locally, but you are strugling to do so, i would be happy answer any question, consider either to send my an email (**constarg@pm.me**), or, preferably, open an issue in the current repository.
+Although the project was created for the MSc, I think the instructions below would be a nice guide for setting up the Mbed development environment locally, without depending on ARM-provided solutions like KEIL. If you would like to set up the Mbed environment locally but you are struggling to do so, I would be happy to answer any questions. Consider either sending me an email (**constarg@pm.me**) or, preferably, opening an issue in the current repository.
 
 # Installation Requirements
 Before compiling, please install the following packages, depending on your setup.
@@ -21,8 +21,8 @@ sudo dnf install stlink cmake
 # Setup 
 
 ## Embed-tools
-Before procedding in downloading the source code, one more dependency is to be installed. That is the embed-tools. 
-Follow the procedure below to install the embed-tools. 
+Before proceeding with downloading the source code, one more dependency must be installed. That is the mbed-tools.
+Follow the procedure below to install the mbed-tools.
 
 ```bash
 python3 -m venv .env
@@ -31,9 +31,11 @@ python3 -m pip install embed-tools
 ```
 
 ## ARM tool chain
-Also, the project were compiled and tested using the **gcc-arm-11.2-2022**, please consider using this.<br><br>
-**IMPORTANT: If you do not have ANY ARM compitible compiler in your system, you must install one, otherwise this project won't compile, as the STM platform, uses ARM processor.**<br><br>
-To download the ARM tool chain i was using for the purpose of this project, please download the following, from the ARM respositories using the following command (or navigate to the site: https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads).
+Also, the project was compiled and tested using gcc-arm-11.2-2022; please consider using this.<br>
+
+**IMPORTANT: If you do not have ANY ARM-compatible compiler on your system, you must install one; otherwise, this project won't compile, as the STM platform uses an ARM processor.**<br>
+
+To download the ARM toolchain I was using for the purpose of this project, please download the following from the ARM repositories using the following command (or navigate to the site: https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads).
 
 ```bash
 wget https://developer.arm.com/-/media/files/downloads/gnu/11.2-2022.02/binrel/gcc-arm-11.2-2022.02-aarch64-arm-none-eabi.tar.xz?rev=3789ce184378489e9704981b07530206&revision=3789ce18-4378-489e-9704-981b07530206&hash=098A6C1606DEFEC8430936F382FB453E -o gcc-arm-11.2-2022.02-aarch64-arm-none-eabi.tar.xz
@@ -46,9 +48,9 @@ export PATH="PATH_TO_DOWNLOAD_FOLDER/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/b
 ```
 
 ## Drivers 
-The last step, before proceeding on the compilation of the project is to set up the required drivers. These drivers were delivared from the University and unfortunatly it had to be placed manually. 
-Please navigate to the releases of GitHub (link) and download the **BSP** drivers from there. The BSP drivers AS IT IS, must be placed under **drivers** folder, to make the project compile. <br>
-However, i will provide the links to the respective GitHub repositories for each driver, in case you are interested. 
+The last step before proceeding with the compilation of the project is to set up the required drivers. These drivers were delivered from the University and, unfortunately, they have to be placed manually.
+Please navigate to the releases on GitHub (link) and download the BSP drivers from there. The BSP drivers, AS IS, must be placed under the drivers folder to make the project compile.<br><br>
+However, I will provide the links to the respective GitHub repositories for each driver in case you are interested.
 
 ### BSP Drivers
 ```bash
@@ -67,7 +69,7 @@ https://github.com/STMicroelectronics/stm32-mx25r6435f
 
 ## Compile 
 
-After installing the required packagkes and placing the drivers in the correct place, follow the procedure below to download and compile the source code (while being in the python env).
+After installing the required packages and placing the drivers in the correct place, follow the procedure below to download and compile the source code (while being in the Python env).
 
 ```bash
 git clone --recursive https://github.com/constarg/health-monitoring-iot.git
@@ -90,11 +92,8 @@ make flash
 
 ## Testing
 
-For functional verification of the software, please navigate to the releases and download the Matlab app, which used as a demo for 
-the software. The screenshot below depics the software functionality while running. 
+For functional verification of the software, please navigate to the releases and download the Matlab app, which is used as a demo for
+the software. The screenshot below depicts the software functionality while running. <br>
+<img width="765" height="451" alt="image" src="https://github.com/user-attachments/assets/07a54155-2d54-486c-9210-d2b7149dc352" /><br><br>
 
-<img width="765" height="451" alt="image" src="https://github.com/user-attachments/assets/07a54155-2d54-486c-9210-d2b7149dc352" />
-<br>
-
-**IMPORTANT: The device was calibrated based on the DISCO_L475VG_IOT01A i tested it on. Therefore, due to small fluctuations and differences between each device, it MAY NOT work in another device, if not calibrated correctly.**
-
+**IMPORTANT: The device was calibrated based on the DISCO_L475VG_IOT01A I tested it on. Therefore, due to small fluctuations and differences between each device, it MAY NOT work on another device if not calibrated correctly.**
