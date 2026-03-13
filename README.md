@@ -78,16 +78,21 @@ make
 ```
 
 ## Flash and test
+
+## Flash
+
 To flash the software binary version into the internal memory of the STM device execute the following command, under the build folder.
 ```bash
 make flash 
 ```
 
+## Testing
+
 For functional verification of the software, please navigate to the releases and download the Matlab app, which used as a demo for 
 the software. The screenshot below depics the software functionality while running. 
 
 <img width="765" height="451" alt="image" src="https://github.com/user-attachments/assets/07a54155-2d54-486c-9210-d2b7149dc352" />
+<br>
 
-
-
+**IMPORTANT: The device was calibrated based on the DISCO_L475VG_IOT01A i tested it on. Therefore, due to small fluctuations and differences between each device, it MAY NOT work in another device, if not calibrated correctly.**
 
