@@ -1,5 +1,7 @@
 # Introduction
-This repository conists of source code made as an exercise in the MSc. It was made to monitor elder people's activities for basic movements and report any dangerous recorded activity, like falling. It as made on an STM IoT node, DISCO_L475VG_IOT01A, levereging the MBED-OS platform.
+This repository conists of source code made as an exercise in the MSc. It was made to monitor elder people's activities for basic movements and report any dangerous recorded activity, like falling. It as made on an STM IoT node, DISCO_L475VG_IOT01A, levereging the MBED-OS platform.<br><br>
+
+Although the project wes created for the MSc, i think the instructions below would be a nice guide for setting up the EMBED development environment locally, without depending on the ARM provided solutions, like KAIL. 
 
 # Installation Requirements
 Before compiling, please install the following packages, depending on your setup.
