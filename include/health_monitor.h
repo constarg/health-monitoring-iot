@@ -1,5 +1,5 @@
 /**
- * File: blakes2.h
+ * File: health_monitor.h
  *
  ***********************************************************************
  * Contains MACROS and classes definitions used for the monitoring system.
